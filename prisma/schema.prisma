@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("LOCAL_DATABASE_URL")
+}
+
+// We could not retrieve columns for the underlying table. Either it has none or you are missing rights to see them. Please check your privileges.
+// model expenses {
+// }
+model User {
+  userID           Int     @id(map: "User_pk") @unique(map: "Users_userid_uindex") @default(autoincrement())
+  userFullName     String
+  username         String
+  userPassword     String?
+  userEmailAddress String
+  userWebsite      String?
+  userPhoneNumber  String?
+  userExpenses     Expense[]
+}
+
+model Expense {
+  expenseID        Int @id @default(autoincrement())
+  author           User @relation(fields: [expenseAuthor], references: [userID])
+  expenseAuthor    Int
+  expenseAddedDate DateTime @default(now())
+  expenseName      String
+  expenseCategory  Category[]
+  expenseAmount    Int
+  expenseDateDue   DateTime
+}
+
+model Category {
+  categoryID      Int @id @default(autoincrement())
+  categoryName    String
+  expense         Expense @relation(fields: [expenseID], references:[expenseID])
+  expenseID       Int
+}

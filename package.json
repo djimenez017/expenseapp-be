@@ -1,0 +1,22 @@
+{
+  "name": "expense-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^3.7.0",
+    "apollo-server": "^3.5.0",
+    "apollo-server-express": "^3.6.1",
+    "express": "^4.17.1",
+    "graphql": "^15.8.0",
+    "nodemon": "^2.0.15"
+  },
+  "devDependencies": {
+    "prisma": "^3.6.0"
+  }
+}
