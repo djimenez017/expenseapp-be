@@ -1,29 +1,46 @@
 // const { users } = require("../FakeData/fake");
 
+const { context } = require("./context");
+
 const resolvers = {
-  // Query: {
-  //   getAllUsers: () => users,
-  // }
-
   Query: {
-    /**
-     * @param {any} _parent
-     * @param {any} _args
-     * @param {{ prisma: Prisma }} context
-     */
-
     getAllUsers: (_parent, _args, context) => {
-      console.log(context);
       return context.prisma.user.findMany();
+    },
+
+    getAllCategories: (_parent, _args, context) => {
+      return context.prisma.category.findMany();
+    },
+
+    getAllExpenses: (_parent, _args, context) => {
+      return context.prisma.expense.findMany();
+    },
+
+    getAllFrequencies: (_parent, _args, context) => {
+      return context.prisma.frequency.findMany();
     },
   },
 
   Mutation: {
-    createUser(parent, args) {
-      const newUser = args;
-      users.push(newUser);
-      return newUser;
+    createUser: (_parent, _args, context) => {
+      return context.prisma.user.create({
+        data: {
+          fullName: _args.fullName,
+          emailAddress: _args.emailAddress,
+          username: _args.username,
+          password: _args.password,
+          phoneNumber: _args.phoneNumber,
+          website: _args.website,
+          expenses: _args.expenses,
+        },
+      });
     },
+
+    // createExpense:(_parent,_args,context) => {
+    //   return context.prisma.expense.create({
+    //     data
+    //   })
+    // }
   },
 };
 

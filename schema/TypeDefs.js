@@ -2,32 +2,40 @@ const { gql } = require("apollo-server");
 
 const typeDefs = gql`
   type User {
-    userID: Int
-    userFullName: String
+    id: Int
+    fullName: String
     username: String!
-    userPassword: String
-    userEmailAddress: String
-    userWebsite: String
-    userPhoneNumber: String
-    userExpenses: Expense
+    password: String
+    emailAddress: String
+    website: String
+    phoneNumber: String
+    expenses: [Expense]
   }
 
   type Expense {
-    expenseID: Int
+    id: Int
     author: [User]
     expenseAuthor: Int
-    expenseAddedDate: String
-    expenseName: String
-    expenseCategory: Category
-    expenseAmount: Int
-    expenseDateDue: String
+    addedDate: String
+    name: String
+    category: [Category]
+    amount: Int
+    frequency(type: Frequency): String
+    dateDue: String
   }
 
   type Category {
-    categoryID: Int
+    id: Int
     categoryName: String
     expense: [Expense]
     expenseID: Int
+  }
+
+  enum Frequency {
+    DAILY
+    WEEKLY
+    MONTHLY
+    YEARLY
   }
 
   #QUERIES
@@ -35,16 +43,19 @@ const typeDefs = gql`
     getAllUsers: [User!]!
     getAllExpenses: [Expense]
     getAllCategories: [Category]
+    getAllFrequencies: [Frequency]
   }
 
   #MUTATIONS
   type Mutation {
     createUser(
-      userID: Int
-      userFullName: String
+      id: Int
+      fullName: String
       username: String!
-      userEmailAddress: String
-      userWebsite: String
+      emailAddress: String
+      website: String
+      password: String
+      phoneNumber: String
     ): User!
   }
 `;

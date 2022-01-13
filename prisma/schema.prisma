@@ -11,30 +11,38 @@ datasource db {
 // model expenses {
 // }
 model User {
-  userID           Int     @id(map: "User_pk") @unique(map: "Users_userid_uindex") @default(autoincrement())
-  userFullName     String
+  id               Int     @id(map: "User_pk") @unique(map: "Users_userid_uindex") @default(autoincrement())
+  fullName         String
   username         String
-  userPassword     String?
-  userEmailAddress String
-  userWebsite      String?
-  userPhoneNumber  String?
-  userExpenses     Expense[]
+  password         String?
+  emailAddress     String
+  website          String?
+  phoneNumber      String?
+  expenses         Expense[]
 }
 
 model Expense {
-  expenseID        Int @id @default(autoincrement())
-  author           User @relation(fields: [expenseAuthor], references: [userID])
+  id               Int @id @default(autoincrement())
+  author           User @relation(fields: [expenseAuthor], references: [id])
   expenseAuthor    Int
-  expenseAddedDate DateTime @default(now())
+  addedDate        DateTime @default(now())
   expenseName      String
   expenseCategory  Category[]
   expenseAmount    Int
   expenseDateDue   DateTime
+  frequency        Frequency
 }
 
 model Category {
-  categoryID      Int @id @default(autoincrement())
+  id              Int @id @default(autoincrement())
   categoryName    String
-  expense         Expense @relation(fields: [expenseID], references:[expenseID])
+  expense         Expense @relation(fields: [expenseID], references:[id])
   expenseID       Int
+}
+
+enum Frequency {
+  DAILY
+  WEEKLY
+  MONTHLY
+  YEARLY
 }
