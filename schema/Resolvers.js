@@ -74,7 +74,20 @@ const resolvers = {
         },
       }),
 
-    // loginUser: (_parent, _args, context, info) => {},
+    register: async (_parent, _args, context) => {
+      const hashedPassword = await bcrypt.hash(_args.password, 10);
+      const newUser = await context.prisma.user.create({
+        data: {
+          fullName: _args.fullName,
+          emailAddress: _args.emailAddress,
+          username: _args.username,
+          password: hashedPassword,
+          phoneNumber: _args.phoneNumber,
+          website: _args.website,
+        },
+      });
+      return newUser;
+    },
   },
 };
 

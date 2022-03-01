@@ -66,6 +66,22 @@ const typeDefs = gql`
       frequency: Frequency
       dateDue: DateTime
     ): Expense!
+
+    register(
+      fullName: String
+      username: String!
+      password: String!
+      emailAddress: String
+      website: String
+      phoneNumber: String
+    ): User!
+
+    login(username: String!, password: String!): LoginResponse!
+  }
+
+  type LoginResponse {
+    token: String
+    user: User
   }
 `;
 
