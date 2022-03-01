@@ -10,6 +10,8 @@ datasource db {
 // We could not retrieve columns for the underlying table. Either it has none or you are missing rights to see them. Please check your privileges.
 // model expenses {
 // }
+
+  // id               Int     @id(map: "User_pk") @unique(map: "Users_userid_uindex") @default(autoincrement())
 model User {
   id               Int     @id(map: "User_pk") @unique(map: "Users_userid_uindex") @default(autoincrement())
   fullName         String
@@ -22,19 +24,19 @@ model User {
 }
 
 model Expense {
-  id               Int @id @default(autoincrement())
+  id               Int @id @default(autoincrement()) @unique
   author           User @relation(fields: [expenseAuthor], references: [id])
   expenseAuthor    Int
-  addedDate        DateTime @default(now())
-  expenseName      String
-  expenseCategory  Category[]
-  expenseAmount    Int
-  expenseDateDue   DateTime
+  date        DateTime @default(now())
+  name      String
+  category  Category[]
+  amount    Int
+  dateDue   DateTime
   frequency        Frequency
 }
 
 model Category {
-  id              Int @id @default(autoincrement())
+  id              Int @id @default(autoincrement()) @unique
   categoryName    String
   expense         Expense @relation(fields: [expenseID], references:[id])
   expenseID       Int

@@ -1,8 +1,10 @@
 const { gql } = require("apollo-server");
 
 const typeDefs = gql`
+  scalar DateTime
+
   type User {
-    id: Int
+    id: ID!
     fullName: String
     username: String!
     password: String
@@ -13,19 +15,19 @@ const typeDefs = gql`
   }
 
   type Expense {
-    id: Int
-    author: [User]
+    id: ID!
+    author: [User]!
     expenseAuthor: Int
     addedDate: String
     name: String
     category: [Category]
     amount: Int
-    frequency(type: Frequency): String
-    dateDue: String
+    frequency: Frequency
+    dateDue: DateTime
   }
 
   type Category {
-    id: Int
+    id: ID!
     categoryName: String
     expense: [Expense]
     expenseID: Int
@@ -40,23 +42,30 @@ const typeDefs = gql`
 
   #QUERIES
   type Query {
-    getAllUsers: [User!]!
-    getAllExpenses: [Expense]
-    getAllCategories: [Category]
-    getAllFrequencies: [Frequency]
+    users: [User!]!
+    expenses: [Expense]
+    categories: [Category]
+    frequencies: [Frequency]
+    user(id: ID!): User
   }
 
   #MUTATIONS
   type Mutation {
     createUser(
-      id: Int
       fullName: String
-      username: String!
+      username: String
       emailAddress: String
       website: String
       password: String
       phoneNumber: String
     ): User!
+
+    createExpense(
+      name: String
+      amount: Int
+      frequency: Frequency
+      dateDue: DateTime
+    ): Expense!
   }
 `;
 
