@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { context } = require("./context");
 const { prisma } = require("@prisma/client");
+require("dotenv").config();
 
 const naiveIsoDateRegex =
   /(\d{4})-(\d{2})-(\d{2})T((\d{2}):(\d{2}):(\d{2}))\.(\d{3})Z/;
@@ -88,19 +89,33 @@ const resolvers = {
       });
       return newUser;
     },
+
+    login: async (_parent, _args, context) => {
+      const user = await context.prisma.user.findFirst(_args.username);
+
+      if (!user) {
+        throw new Error("Invalid username");
+      }
+
+      const passwordMatch = await bcrypt.compare(_args.password, user.password);
+
+      if (!passwordMatch) {
+        throw new Error("Invalid Password!");
+      }
+
+      const token = jwt.sign(
+        {
+          id: user.id,
+          username: user.username,
+        },
+        process.env.PRISMA_SECRET,
+        {
+          expiresIn: "30d",
+        }
+      );
+      return { token, user };
+    },
   },
 };
 
 module.exports = { resolvers };
-
-// context.prisma.user.create({
-//   data: {
-//     fullName: _args.fullName,
-//     emailAddress: _args.emailAddress,
-//     username: _args.username,
-//     password: bcrypt.hashSync(_args.password, 3),
-//     phoneNumber: _args.phoneNumber,
-//     website: _args.website,
-//     expenses: _args.expenses,
-//   },
-// }),

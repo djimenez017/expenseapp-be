@@ -15,9 +15,9 @@ datasource db {
 model User {
   id               Int     @id(map: "User_pk") @unique(map: "Users_userid_uindex") @default(autoincrement())
   fullName         String
-  username         String
+  username         String  @unique
   password         String?
-  emailAddress     String
+  emailAddress     String  @unique
   website          String?
   phoneNumber      String?
   expenses         Expense[]
