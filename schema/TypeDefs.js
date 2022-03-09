@@ -47,6 +47,7 @@ const typeDefs = gql`
     categories: [Category]
     frequencies: [Frequency]
     user(id: ID!): User
+    currentUser: User!
   }
 
   #MUTATIONS

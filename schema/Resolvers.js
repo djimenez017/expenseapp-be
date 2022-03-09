@@ -2,7 +2,7 @@
 const { GraphQLScalarType } = require("graphql");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { context } = require("./context");
+// const { context } = require("./context");
 const { prisma } = require("@prisma/client");
 require("dotenv").config();
 
@@ -44,6 +44,14 @@ const resolvers = {
 
     frequencies: (_parent, _args, context) =>
       context.prisma.frequency.findMany(),
+
+    currentUser: (_parent, _args, context) => {
+      // console.log(context.user);
+      if (!context.user) {
+        throw new Error("Not Authenticated bro!");
+      }
+      return context.prisma.user.findFirst({ id: context.id });
+    },
   },
 
   Mutation: {
@@ -92,7 +100,6 @@ const resolvers = {
 
     login: async (_parent, _args, context) => {
       const user = await context.prisma.user.findFirst(_args.username);
-
       if (!user) {
         throw new Error("Invalid username");
       }
