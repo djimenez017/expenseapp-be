@@ -2,8 +2,7 @@
 const { GraphQLScalarType } = require("graphql");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-// const { context } = require("./context");
-const { prisma } = require("@prisma/client");
+//const { context } = require("../index");
 require("dotenv").config();
 
 const naiveIsoDateRegex =
@@ -77,7 +76,7 @@ const resolvers = {
           dateDue: _args.dateDue,
           author: {
             connect: {
-              id: context.userId,
+              id: context.user.id,
             },
           },
         },

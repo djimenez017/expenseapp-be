@@ -17,7 +17,7 @@ const typeDefs = gql`
   type Expense {
     id: ID!
     author: [User]!
-    expenseAuthor: Int
+    expenseAuthor: String
     addedDate: String
     name: String
     category: [Category]
