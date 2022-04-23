@@ -16,7 +16,7 @@ const typeDefs = gql`
 
   type Expense {
     id: ID!
-    author: [User]!
+    author: User!
     expenseAuthor: String
     addedDate: String
     name: String
@@ -78,6 +78,13 @@ const typeDefs = gql`
     ): User!
 
     login(username: String!, password: String!): LoginResponse!
+
+    editExpense(
+      name: String
+      amount: Int
+      frequency: Frequency
+      dateDue: DateTime
+  )
   }
 
   type LoginResponse {

@@ -35,8 +35,11 @@ const resolvers = {
       }),
 
     expenses: (_parent, _args, context) =>
-      context.prisma.expense.findFirst({
+      context.prisma.expense.findMany({
         where: { id: context.ID },
+        include: {
+          author: true,
+        },
       }),
 
     categories: (_parent, _args, context) => context.prisma.category.findMany(),
