@@ -79,12 +79,21 @@ const typeDefs = gql`
 
     login(username: String!, password: String!): LoginResponse!
 
-    editExpense(
+    updateExpense(
+      ID: Int
       name: String
       amount: Int
       frequency: Frequency
       dateDue: DateTime
-  )
+    ): Expense
+
+    deleteExpense(
+      ID: Int
+      name: String
+      amount: Int
+      frequency: Frequency
+      dateDue: DateTime
+    ): Expense
   }
 
   type LoginResponse {

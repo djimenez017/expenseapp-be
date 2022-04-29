@@ -124,6 +124,30 @@ const resolvers = {
       );
       return { token, user };
     },
+
+    updateExpense: async (_parent, _args, context) => {
+      const updatedExpense = await context.prisma.expense.update({
+        where: {
+          id: _args.ID,
+        },
+        data: {
+          name: _args.name,
+          amount: _args.amount,
+          frequency: _args.frequency,
+          dateDue: _args.dateDue,
+        },
+      });
+      return updatedExpense;
+    },
+
+    deleteExpense: async (_parent, _args, context) => {
+      const deletedExpense = await context.prisma.expense.delete({
+        where: {
+          id: _args.ID,
+        },
+      });
+      return deletedExpense;
+    },
   },
 };
 
