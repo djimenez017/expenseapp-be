@@ -42,6 +42,13 @@ const resolvers = {
         },
       }),
 
+    expense: (_parent, _args, context) => {
+      console.log(_args);
+      return context.prisma.expense.findFirst({
+        where: { id: context.id },
+      });
+    },
+
     categories: (_parent, _args, context) => context.prisma.category.findMany(),
 
     frequencies: (_parent, _args, context) =>
