@@ -1,5 +1,5 @@
 // const { users } = require("../FakeData/fake");
-const { GraphQLScalarType } = require("graphql");
+const { GraphQLScalarType, __InputValue } = require("graphql");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 //const { context } = require("../index");
@@ -43,9 +43,8 @@ const resolvers = {
       }),
 
     expense: (_parent, _args, context) => {
-      console.log(_args);
       return context.prisma.expense.findFirst({
-        where: { id: context.id },
+        where: { id: parseInt(_args.id) },
       });
     },
 

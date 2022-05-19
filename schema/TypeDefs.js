@@ -48,7 +48,7 @@ const typeDefs = gql`
     frequencies: [Frequency]
     user(id: ID!): User
     currentUser: User!
-    expense(id: ID!): [Expense]
+    expense(id: ID): Expense
   }
 
   #MUTATIONS
