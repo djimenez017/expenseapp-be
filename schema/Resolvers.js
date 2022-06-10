@@ -42,7 +42,6 @@ const resolvers = {
       }),
 
     expense: (_parent, _args, context) => {
-      //console.log(_args);
       return context.prisma.expense.findFirst({
         where: { id: parseInt(_args.id) },
       });
