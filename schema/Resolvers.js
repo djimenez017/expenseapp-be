@@ -62,18 +62,18 @@ const resolvers = {
   },
 
   Mutation: {
-    createUser: (_parent, _args, context) =>
-      context.prisma.user.create({
-        data: {
-          fullName: _args.fullName,
-          emailAddress: _args.emailAddress,
-          username: _args.username,
-          password: _args.password,
-          phoneNumber: _args.phoneNumber,
-          website: _args.website,
-          expenses: _args.expenses,
-        },
-      }),
+    // createUser: (_parent, _args, context) =>
+    //   context.prisma.user.create({
+    //     data: {
+    //       fullName: _args.fullName,
+    //       emailAddress: _args.emailAddress,
+    //       username: _args.username,
+    //       password: _args.password,
+    //       phoneNumber: _args.phoneNumber,
+    //       website: _args.website,
+    //       expenses: _args.expenses,
+    //     },
+    //   }),
 
     createExpense: (_parent, _args, context) =>
       context.prisma.expense.create({
@@ -91,6 +91,7 @@ const resolvers = {
       }),
 
     register: async (_parent, _args, context) => {
+      //console.log(_args);
       const hashedPassword = await bcrypt.hash(_args.password, 10);
       const newUser = await context.prisma.user.create({
         data: {
@@ -106,13 +107,14 @@ const resolvers = {
     },
 
     login: async (_parent, _args, context) => {
+      //console.log(_args);
       const user = await context.prisma.user.findFirst(_args.username);
       if (!user) {
         throw new Error("Invalid username");
       }
 
       const passwordMatch = await bcrypt.compare(_args.password, user.password);
-
+      //console.log(_args.password, user.password, passwordMatch);
       if (!passwordMatch) {
         throw new Error("Invalid Password!");
       }
