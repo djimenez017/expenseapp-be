@@ -53,7 +53,6 @@ const resolvers = {
       context.prisma.frequency.findMany(),
 
     currentUser: (_parent, _args, context) => {
-      // console.log(context.user);
       if (!context.user) {
         throw new Error("Not Authenticated bro!");
       }
