@@ -1,29 +1,12 @@
 // const { users } = require("../FakeData/fake");
-const { GraphQLScalarType, __InputValue } = require("graphql");
+// const { GraphQLScalarType, __InputValue } = require("graphql");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-
-const naiveIsoDateRegex =
-  /(\d{4})-(\d{2})-(\d{2})T((\d{2}):(\d{2}):(\d{2}))\.(\d{3})Z/;
-
-const dateTimeScalar = new GraphQLScalarType({
-  name: "DateTime",
-  description: "Data type representing the date and time",
-  parseValue: (value) => {
-    if (!naiveIsoDateRegex.test(value)) {
-      throw new Error("Invalid date format");
-    }
-
-    return new Date(value);
-  },
-  serialize: (value) => {
-    return value.toISOString();
-  },
-});
+const { DateTime } = require("graphql-scalars");
 
 const resolvers = {
-  DateTime: dateTimeScalar,
+  DateTime: { DateTime },
 
   Query: {
     users: (_parent, _args, context) => context.prisma.user.findMany(),
