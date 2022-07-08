@@ -1,6 +1,6 @@
 // const { users } = require("../FakeData/fake");
 // const { GraphQLScalarType, __InputValue } = require("graphql");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const { DateTime } = require("graphql-scalars");
@@ -73,8 +73,8 @@ const resolvers = {
       }),
 
     register: async (_parent, _args, context) => {
-      //console.log(_args);
       const hashedPassword = await bcrypt.hash(_args.password, 10);
+
       const newUser = await context.prisma.user.create({
         data: {
           fullName: _args.fullName,
@@ -89,14 +89,16 @@ const resolvers = {
     },
 
     login: async (_parent, _args, context) => {
-      //console.log(_args);
-      const user = await context.prisma.user.findFirst(_args.username);
+      const user = await context.prisma.user.findFirst({
+        where: { username: _args.username },
+      });
+
       if (!user) {
         throw new Error("Invalid username");
       }
 
       const passwordMatch = await bcrypt.compare(_args.password, user.password);
-      //console.log(_args.password, user.password, passwordMatch);
+
       if (!passwordMatch) {
         throw new Error("Invalid Password!");
       }
