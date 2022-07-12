@@ -18,28 +18,30 @@ const resolvers = {
 
     expenses: (_parent, _args, context) =>
       context.prisma.expense.findMany({
-        where: { id: context.ID },
+        where: { author: { id: context.user.id } },
         include: {
           author: true,
         },
       }),
 
-    expense: (_parent, _args, context) => {
-      return context.prisma.expense.findFirst({
+    expense: (_parent, _args, context) =>
+      context.prisma.expense.findFirst({
         where: { id: parseInt(_args.id) },
-      });
-    },
+      }),
 
     categories: (_parent, _args, context) => context.prisma.category.findMany(),
 
     frequencies: (_parent, _args, context) =>
       context.prisma.frequency.findMany(),
 
-    currentUser: (_parent, _args, context) => {
+    currentUser: async (_parent, _args, context) => {
       if (!context.user) {
         throw new Error("Not Authenticated bro!");
       }
-      return context.prisma.user.findFirst({ id: context.id });
+      const user = await context.prisma.user.findFirst({
+        where: { id: context.user.id },
+      });
+      return user;
     },
   },
 
