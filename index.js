@@ -31,5 +31,5 @@ const server = new ApolloServer({
     };
   },
 });
-
+// console.log("hello")
 server.listen(process.env.PORT || 4000);
