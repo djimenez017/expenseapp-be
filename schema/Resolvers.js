@@ -40,6 +40,14 @@ const resolvers = {
       }
       const user = await context.prisma.user.findFirst({
         where: { id: context.user.id },
+        include: {
+          expenses: {
+            select: {
+              name: true,
+              id: true,
+            },
+          },
+        },
       });
       return user;
     },
