@@ -21,7 +21,7 @@ const typeDefs = gql`
     addedDate: String
     name: String
     category: [Category]
-    amount: Int
+    amount: Float
     frequency: Frequency
     dateDue: DateTime
   }
@@ -64,7 +64,7 @@ const typeDefs = gql`
 
     createExpense(
       name: String
-      amount: Int
+      amount: Float
       frequency: Frequency
       dateDue: DateTime
     ): Expense!

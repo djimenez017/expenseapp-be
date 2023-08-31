@@ -30,7 +30,7 @@ model Expense {
   date        DateTime @default(now())
   name      String
   category  Category[]
-  amount    Int
+  amount    Float
   dateDue   DateTime
   frequency        Frequency
 }
