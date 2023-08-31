@@ -1,5 +1,3 @@
-// const { users } = require("../FakeData/fake");
-// const { GraphQLScalarType, __InputValue } = require("graphql");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -45,6 +43,9 @@ const resolvers = {
             select: {
               name: true,
               id: true,
+              date: true,
+              amount: true,
+              frequency: true,
             },
           },
         },
@@ -54,19 +55,6 @@ const resolvers = {
   },
 
   Mutation: {
-    // createUser: (_parent, _args, context) =>
-    //   context.prisma.user.create({
-    //     data: {
-    //       fullName: _args.fullName,
-    //       emailAddress: _args.emailAddress,
-    //       username: _args.username,
-    //       password: _args.password,
-    //       phoneNumber: _args.phoneNumber,
-    //       website: _args.website,
-    //       expenses: _args.expenses,
-    //     },
-    //   }),
-
     createExpense: (_parent, _args, context) =>
       context.prisma.expense.create({
         data: {
