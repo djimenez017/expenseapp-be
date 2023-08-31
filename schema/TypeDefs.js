@@ -83,7 +83,7 @@ const typeDefs = gql`
     updateExpense(
       ID: Int
       name: String
-      amount: Int
+      amount: Float
       frequency: Frequency
       dateDue: DateTime
     ): Expense
